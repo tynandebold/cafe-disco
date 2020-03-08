@@ -9,11 +9,12 @@
 <meta name="description" content="To dance much I like. To listen and play funk, too. This is for me, you.">
 <meta name="keywords" content="tynan debold, tynandebold, tynan, debold, developer, interactive developer, cafe disco, disco, music, funk, visualization, stevie wonder, idea, ideas, project, dev projec, design, ux design, ui design, ux/ui, web development, microsite">
 
-<style>body,button{font-family:'Droid Sans Mono',monospace}#about:hover,#close:hover,#control-btn:hover,button:hover{cursor:pointer}#about-overlay,#control-btn{transition:all .5s ease-in;display:flex}.no-click,.track.playing{pointer-events:none}#about-overlay,#control-btn,#track-listing-wrapper{bottom:0;background-color:#fff;position:absolute}#about-overlay,#control-btn,.track-listing,button{background-color:#fff}#about,#about-overlay,#control-btn,#tagline{position:absolute}body{margin:0;max-height:100vh;overflow:hidden;padding:0}button{-webkit-animation:sizeUpDown 1s alternate infinite ease-out;-moz-animation:sizeUpDown 1s alternate infinite ease-out;-o-animation:sizeUpDown 1s alternate infinite ease-out;animation:sizeUpDown 1s alternate infinite ease-out;border-radius:3px;border:2px solid #bd9cfc;-webkit-box-shadow:1px 2px 3px rgba(0,0,0,.15);box-shadow:1px 2px 3px rgba(0,0,0,.25);color:#9660fb;font-size:14px;height:65px;padding:8px 10px;position:fixed;right:calc((100% - 190px)/ 2);top:calc((100% - 65px)/ 2);transition:color .2s ease-in,top 5s ease;width:190px;z-index:1}button.fade{top:-600px}button:hover{color:#6cd2e0}button:focus{outline:0}button>span{font-size:9px}#control-btn{border-radius:50%;height:25px;opacity:0;right:0;padding:6px;width:25px;z-index:1}#control-btn.fade{opacity:1}@media (min-width:800px){#control-btn.left{right:auto;left:0}}@media (min-width:1630px){#control-btn.left{right:0;left:auto}}#close{font-style:italic}#about{color:rgba(0,0,0,.5);top:4px;right:6px;font-size:11px;text-transform:uppercase;letter-spacing:.75px;z-index:1;transition:opacity .5s ease-in;opacity:0}#about.fade{opacity:1}#about-overlay{top:0;right:0;left:0;opacity:0;flex-direction:column;align-items:center;justify-content:center;z-index:-1}#about-overlay.fade{opacity:.8;z-index:1}#about-overlay>p{line-height:19px;font-size:12px;text-align:center}#squares-wrapper{display:flex;flex-wrap:wrap;margin:3px;z-index:2}#squares-wrapper>div{align-items:center;border:3px solid #fff;color:#fff;display:flex;justify-content:center;line-height:10px;text-shadow:1px 1px 1px rgba(0,0,0,.15);width:calc(100% * (1/4) - 6px)}@media (min-width:640px){#squares-wrapper>div{width:calc(100% * (1/5) - 6px)}}.track{font-size:5em;transition:all .3s ease-out}@media (min-width:800px){#squares-wrapper>div{width:calc(100% * (1/10) - 6px)}.track:hover{cursor:pointer;font-size:6.25em}}.track.playing{-webkit-text-stroke:1px #9660fb;color:#fff;text-shadow:3px 3px 0 #9660fb,-1px -1px 0 #9660fb,1px -1px 0 #9660fb,-1px 1px 0 #9660fb,1px 1px 0 #9660fb}.track.playing:hover{cursor:default;font-size:auto}#squares-wrapper>div:after{content:"";display:block;padding-bottom:100%}#track-listing-wrapper{display:flex;flex-direction:column;font-size:11px;font-weight:400;justify-content:space-around;margin:0 3px;padding:7px 0;text-align:center;width:calc(100% - 6px)}@media (min-width:800px){#track-listing-wrapper{flex-direction:row;margin:0;text-align:left;width:100%}}.track-listing{border-radius:3px;color:#000;cursor:default;opacity:0;padding:3px 10px;transition:all .5s ease-in}@media (min-width:640px){.track-listing{padding:5px 10px}}.active-track{background-color:#9660fb;color:#fff;opacity:1}#tagline{-webkit-animation:inAndOut 20s infinite;-moz-animation:inAndOut 20s infinite;-o-animation:inAndOut 20s infinite;animation:inAndOut 20s infinite;color:rgba(0,0,0,.5);font-size:12px;left:calc((100% - 274px)/ 2);opacity:0;text-align:center;top:3px;width:274px}@keyframes sizeUpDown{0%{transform:scale(.8)}100%{transform:scale(1.2)}}@keyframes inAndOut{0%,100%,25%,75%{opacity:0}50%{opacity:1}}@-o-keyframes inAndOut{0%,100%,25%,75%{opacity:0}50%{opacity:1}}@-moz-keyframes inAndOut{0%,100%,25%,75%{opacity:0}50%{opacity:1}}@-webkit-keyframes inAndOut{0%,100%,25%,75%{opacity:0}50%{opacity:1}}</style>
+<link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
 
 <audio src="music/forget-me-nots.mp3"></audio>
 
-<button onclick="setColorChgInterval(114); modifyStates(); boldActiveTrack();">
+<button>
   click to groove.<br/>
   <span>(headphones on || speakers up)</span>
 </button>
@@ -41,23 +42,196 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-  function modifyStates(){$("button").addClass("fade"),$("#about").addClass("fade"),$("#control-btn").addClass("fade"),$(".track").addClass("animate"),$(".track-listing").addClass("fade"),$(".track").removeClass("no-click"),$("audio")[0].play()}function createElement(){$("#squares-wrapper").prepend('<div class="square"></div>')}function colorSquare(){$("#squares-wrapper > div").each(function(a){var b=Math.floor(360*Math.random()),c="hsl("+b+", 60%, 92%)";$(this).css("background-color",c)})}function setColorChgInterval(a){bpmInterval=setInterval(function(){colorSquare()},getBpm(a))}function placeTrackNums(){for(var a=["1","2","3","4","5"],b=[],c=0;c<squares.length-1;c++)b[c]=c;for(var c=0;c<5;c++){var d=b.splice(Math.random()*b.length,1);0===c?$(squares[d]).html(a[c]).addClass("track no-click playing"):$(squares[d]).html(a[c]).addClass("track no-click")}}function getBpm(a){return 60/a*1e3}function isPlaying(a){return!a.paused}function boldActiveTrack(){$("#track-listing-wrapper > div:nth-child(1)").addClass("active-track")}function isElementInViewport(a){var b=a.getBoundingClientRect();return b.top>=0&&b.left>=0&&b.bottom<=$(window).height()-offset&&b.right<=$(window).width()}$("#about").on("click",function(){$("#about-overlay").addClass("fade"),$("#close").addClass("fade")}),$("#close").on("click",function(){$(this).removeClass("fade"),$("#about-overlay").removeClass("fade")}),$(document).keyup(function(a){27==a.keyCode&&($("#close").removeClass("fade"),$("#about-overlay").removeClass("fade"))});var winWidth=$(window).width(),offset;offset=winWidth<800?50:0;for(var i=0;i<200;i++){createElement();var squares=$(".square"),visible;if($.each(squares,function(a,b){visible=isElementInViewport(b)}),visible===!1)break}var squareWrap=$("#squares-wrapper")[0],lastSquare=squareWrap.lastElementChild;squareWrap.removeChild(lastSquare),colorSquare();var bpmInterval;placeTrackNums(),$(".track").on("click",function(){$(".track").removeClass("playing"),clearInterval(bpmInterval),$("audio")[0].pause();var a=$(this).html()-1;$("audio").attr("src",allTracks[a].track_src),setColorChgInterval(allTracks[a].track_bpm),$("audio")[0].play(),$("#track-listing-wrapper > div").removeClass("active-track"),$("#track-listing-wrapper > div:nth-child("+(a+1)+")").addClass("active-track"),$(".track").addClass("animate"),4===a?$("#control-btn").addClass("left"):$("#control-btn").removeClass("left"),$(this).addClass("playing")}),$("#control-btn").on("click",function(){var c,a=isPlaying($("audio")[0]),b=$("audio").attr("src");c=$.grep(allTracks,function(a){return a.track_src===b});var d=c[0].track_bpm;a===!0?(clearInterval(bpmInterval),$("audio")[0].pause(),$("#control-btn").attr("src","imgs/play.svg")):($("audio")[0].play(),setColorChgInterval(d),$("#control-btn").attr("src","imgs/pause.svg"))});var allTracks=[{track_src:"music/forget-me-nots.mp3",track_bpm:114},{track_src:"music/reggae-woman.mp3",track_bpm:108},{track_src:"music/spring-high.mp3",track_bpm:115},{track_src:"music/september.mp3",track_bpm:125.5},{track_src:"music/nights-over-egypt.mp3",track_bpm:111}];
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-<script>
-  WebFont.load({
-    google: {
-      families: ['Droid Sans Mono']
+
+  $(document).keyup(function(e) {
+    if (e.keyCode == 27) {
+      $('#close').removeClass('fade');
+      $('#about-overlay').removeClass('fade');
     }
   });
-</script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-88504301-1', 'auto');
-  ga('send', 'pageview');
+  function modifyStates(){
+    $('button').addClass('fade');
+    $('#about').addClass('fade');
+    $('#control-btn').addClass('fade');
+    $('.track').addClass('animate');
+    $('.track-listing').addClass('fade');
+    $('.track').removeClass('no-click');
+    $('audio')[0].play()
+  }
 
+  var winWidth = $(window).width();
+  var offset;
+
+  if (winWidth < 800) {
+    offset = 50;
+  } else {
+    offset = 0;
+  }
+
+  // create the squares
+  for (var i = 0; i < 200; i++){
+    createElement();
+
+    var squares = $('.square');
+    var visible;
+
+    $.each(squares, function(i, square){
+      visible = isElementInViewport(square);
+    });
+    if (visible === false){
+      break;
+    }
+  }
+
+  function createElement() {
+    $('#squares-wrapper').prepend('<div class="square"></div>');
+  }
+
+  var squareWrap = $('#squares-wrapper')[0];
+  var lastSquare = squareWrap.lastElementChild;
+  squareWrap.removeChild(lastSquare);
+
+  // color the squares
+  colorSquare();
+
+  function colorSquare(){
+    $('#squares-wrapper > div').each(function(){
+      var hue    = Math.floor(Math.random() * 360);
+      var pastel = 'hsl(' + hue + ', 60%, 92%)';
+      $(this).css('background-color', pastel);
+    });
+  }
+
+  var bpmInterval;
+
+  function setColorChgInterval(trackBpm){
+    bpmInterval = setInterval(function(){
+      colorSquare()
+    }, getBpm(trackBpm));
+  }
+
+  function placeTrackNums(){
+    var trackList = ['1', '2', '3', '4', '5'];
+
+    var allRandNums = [];
+    for (var i = 0; i < (squares.length - 1) ; i++) {
+      allRandNums[i] = i;
+    }
+
+    for (var i = 0; i < 5; i++) {
+      var randNum = allRandNums.splice(Math.random() * allRandNums.length, 1);
+      if (i === 0){
+        $(squares[randNum]).html(trackList[i]).addClass('track no-click playing');
+      } else {
+        $(squares[randNum]).html(trackList[i]).addClass('track no-click');
+      }
+    }
+  }
+
+  placeTrackNums();
+
+  function getBpm(trackBpm){
+    return (60 / trackBpm) * 1000;
+  }
+
+  function isPlaying(audioElem) {
+    return !audioElem.paused;
+  }
+
+  function boldActiveTrack() {
+    $('#track-listing-wrapper > div:nth-child(1)').addClass('active-track');
+  }
+
+  //clicks
+  $('button').on('click', function(){
+    setColorChgInterval(114);
+    modifyStates();
+    boldActiveTrack();
+  });
+
+  $('#about').on('click', function(){
+    $('#about-overlay').addClass('fade');
+    $('#close').addClass('fade');
+  });
+
+  $('#close').on('click', function(){
+    $(this).removeClass('fade');
+    $('#about-overlay').removeClass('fade');
+  });
+
+  $('.track').on('click', function(){
+    $('.track').removeClass('playing');
+
+    clearInterval(bpmInterval);
+    $('audio')[0].pause();
+    var trackNum = $(this).html() - 1;
+
+    $('audio').attr("src", allTracks[trackNum].track_src);
+    setColorChgInterval(allTracks[trackNum].track_bpm);
+    $('audio')[0].play()
+
+    $('#track-listing-wrapper > div').removeClass('active-track');
+    $('#track-listing-wrapper > div:nth-child('+ (trackNum + 1) +')').addClass('active-track');
+
+    $('.track').addClass('animate');
+
+    if(trackNum === 4){
+      $('#control-btn').addClass('left');
+    } else {
+      $('#control-btn').removeClass('left');
+    }
+
+    $(this).addClass('playing');
+  });
+
+  $('#control-btn').on('click', function(){
+    var playing  = isPlaying($('audio')[0]);
+    var curTrack = $('audio').attr("src");
+    var trackObj;
+
+    trackObj = $.grep(allTracks, function(track){
+      return track.track_src === curTrack;
+    });
+
+    var curTrackBpm = trackObj[0].track_bpm;
+
+    if (playing === true) {
+      clearInterval(bpmInterval);
+      $('audio')[0].pause();
+      $('#control-btn').attr('src', 'imgs/play.svg');
+    } else {
+      $('audio')[0].play();
+      setColorChgInterval(curTrackBpm);
+      $('#control-btn').attr('src', 'imgs/pause.svg');
+    }
+  });
+
+  var allTracks = [{
+      'track_src': 'music/forget-me-nots.mp3',
+      'track_bpm': 114
+    },{
+      'track_src': 'music/reggae-woman.mp3',
+      'track_bpm': 108
+    },{
+      'track_src': 'music/spring-high.mp3',
+      'track_bpm': 115
+    },{
+      'track_src': 'music/september.mp3',
+      'track_bpm': 125.5
+    },{
+      'track_src': 'music/nights-over-egypt.mp3',
+      'track_bpm': 111
+    }];
+
+  function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= ($(window).height() - offset) &&
+      rect.right <= $(window).width()
+    );
+  }
 </script>
